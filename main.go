@@ -7,6 +7,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/bouzourene/adgg/initial"
 	"github.com/bouzourene/adgg/tools"
 	"github.com/go-ldap/ldap/v3"
 )
@@ -14,6 +15,10 @@ import (
 func main() {
 	logger := tools.GetLogger()
 	ldapConn := tools.GetLdap()
+
+	initial.CreateConfigFolder()
+	initial.CreateDataFolder()
+	initial.LoadInitialConfig()
 
 	readFile, err := os.Open("./config/groups.txt")
 	if err != nil {
