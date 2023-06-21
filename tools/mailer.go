@@ -1,10 +1,27 @@
 package tools
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/wneessen/go-mail"
 )
+
+func FormatMail(key, added, removed string) (string, string) {
+	var subject string
+	var body string
+
+	subject = fmt.Sprintf("[ADGG] Change in AD group: %s", key)
+	body = fmt.Sprintf(`
+Changes detected in AD group [%s]
+- Members added: %s
+- Members removed: %s
+
+This mail was sent by ADGG (Active Directory Groups Guard)`,
+		key, added, removed)
+
+	return subject, body
+}
 
 func SendMail(subject, body string) {
 	logger := GetLogger()
