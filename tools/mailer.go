@@ -36,6 +36,7 @@ func SendMail(subject, body string) {
 		mail.TypeTextPlain,
 		body,
 	)
+	m.SetImportance(mail.ImportanceHigh)
 
 	if err := c.DialAndSend(m); err != nil {
 		logger.Fatal(err.Error())
