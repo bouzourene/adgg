@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"sort"
 	"strings"
@@ -70,7 +69,7 @@ func main() {
 			filename := fmt.Sprintf("./data/%s.txt", key)
 
 			if _, err := os.Stat(filename); err == nil {
-				buff, err := ioutil.ReadFile(filename)
+				buff, err := os.ReadFile(filename)
 				if err != nil {
 					logger.Fatal(err.Error())
 				}
@@ -78,7 +77,7 @@ func main() {
 				currentMembers := string(buff)
 
 				if currentMembers != value {
-					ioutil.WriteFile(filename, []byte(value), os.FileMode(int(0777)))
+					os.WriteFile(filename, []byte(value), os.FileMode(int(0777)))
 
 					oldMembers := strings.Split(currentMembers, ";")
 					newMembers := strings.Split(value, ";")
@@ -86,8 +85,8 @@ func main() {
 					remGroups := difference(oldMembers, newMembers)
 					addGroups := difference(newMembers, oldMembers)
 
-					remGroupsStr := strings.Join(remGroups, ", ")
-					addGroupsStr := strings.Join(addGroups, ", ")
+					remGroupsStr := strings.Join(remGroups, "; ")
+					addGroupsStr := strings.Join(addGroups, "; ")
 
 					tools.SendMail(
 						fmt.Sprintf(
@@ -107,7 +106,7 @@ This mail was sent by ADGG (Active Directory Groups Guard)`,
 					)
 				}
 			} else {
-				ioutil.WriteFile(filename, []byte(value), os.FileMode(int(0777)))
+				os.WriteFile(filename, []byte(value), os.FileMode(int(0777)))
 			}
 		}
 	}
