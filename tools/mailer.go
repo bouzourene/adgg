@@ -1,6 +1,7 @@
 package tools
 
 import (
+	"crypto/tls"
 	"fmt"
 	"strconv"
 
@@ -54,6 +55,26 @@ func SendMail(subject, body string) {
 		mail.WithSMTPAuth(mail.SMTPAuthPlain),
 		mail.WithUsername(ConfigValue("SMTP_USER")),
 		mail.WithPassword(ConfigValue("SMTP_PASS")),
+	)
+
+	if err != nil {
+		logger.Fatal(err.Error())
+	}
+
+	// If user is empty, do not auth
+	if ConfigValue("SMTP_USER") == "" {
+		c, err = mail.NewClient(
+			ConfigValue("SMTP_ADDR"),
+			mail.WithPort(port),
+		)
+
+		if err != nil {
+			logger.Fatal(err.Error())
+		}
+	}
+
+	c.SetTLSConfig(
+		&tls.Config{InsecureSkipVerify: true},
 	)
 
 	if err != nil {
