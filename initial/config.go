@@ -7,6 +7,11 @@ import (
 	"github.com/bouzourene/adgg/tools"
 )
 
+// List of default groups to guard.
+// They are only used on the first run to
+// populate the config file.
+// The user is free to choose ay group
+// by editing the "config/groups.txt" file.
 var defaultGroups = []string{
 	"Account Operators",
 	"Administrators",
@@ -27,12 +32,17 @@ var defaultGroups = []string{
 	"Server Operators",
 }
 
+// If config does not yet exist, create a basic one
 func LoadInitialConfig() {
+
+	// Get logger
 	logger := tools.GetLogger()
 
 	if _, err := os.Stat("./config/groups.txt"); err == nil {
+		// If config file exists, log that information
 		logger.Info("Config already exists")
 	} else {
+		// Else, create config file, and log that information
 		logger.Info("Creating default config")
 		value := strings.Join(defaultGroups, "\n")
 

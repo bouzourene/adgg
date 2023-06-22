@@ -1,7 +1,8 @@
 package tools
 
+// From stackoverflow:
 // https://stackoverflow.com/questions/19374219/how-to-find-the-difference-between-two-slices-of-strings
-// difference returns the elements in `a` that aren't in `b`.
+// Returns the elements in slice "a" that aren't in slice "b".
 func Difference(a, b []string) []string {
 	mb := make(map[string]struct{}, len(b))
 	for _, x := range b {
