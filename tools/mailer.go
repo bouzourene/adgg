@@ -17,8 +17,10 @@ func FormatMail(key, added, removed string) (string, string) {
 	subject = fmt.Sprintf("[ADGG] Change in AD group: %s", key)
 
 	// Create mail body, indentation is super important!!!
-	body = fmt.Sprintf(`Changes detected in AD group [%s]
-===============
+	body = fmt.Sprintf(`
+>>> IMPORTANT <<<
+
+Changes detected in AD group "%s" :
 
 - Members added: %s
 - Members removed: %s
